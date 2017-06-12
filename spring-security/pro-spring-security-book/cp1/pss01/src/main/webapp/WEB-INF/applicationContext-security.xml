@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+    <security:global-method-security secured-annotations="enabled" />
+    <security:http auto-config="true" />
+
+    <!--<security:http auto-config="true" access-decision-manager-ref="accessDecisionManager">-->
+    <!--&lt;!&ndash;<security:http auto-config="true" use-expressions="true">&ndash;&gt;-->
+        <!--&lt;!&ndash;<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN,IS_AUTHENTICATED_FULLY" />&ndash;&gt;-->
+        <!--<security:expression-handler ref="customExpressionHandler" />-->
+        <!--<security:intercept-url pattern="/admin/**"-->
+                                <!--access="(isAnonymous() ? false : principal.lastName == 'Scarioni') and over18"-->
+                                <!--requires-channel="https"/>-->
+
+        <!--<security:form-login login-page="/custom_login" username-parameter="user_param" password-parameter="pass_param"-->
+            <!--authentication-failure-url="/custom_login?error" login-processing-url="/login"/>-->
+        <!--<security:remember-me key="terror-key" token-repository-ref="inMemoryTokenRepository"/>-->
+        <!--&lt;!&ndash;<security:http-basic />&ndash;&gt;-->
+
+        <!--<security:logout delete-cookies="JSESSIONID" success-handler-ref="logoutRedirectToAny" />-->
+    <!--</security:http>-->
+
+    <security:authentication-manager>
+        <!--<security:authentication-provider>-->
+            <!--<security:user-service>-->
+                <!--<security:user name="car" password="123456" authorities="ROLE_ADMIN" />-->
+            <!--</security:user-service>-->
+        <!--</security:authentication-provider>-->
+        <security:authentication-provider user-service-ref="inMemoryUserServiceWithCustomUser" />
+    </security:authentication-manager>
+
+    <!--<bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">-->
+    <!--<constructor-arg>-->
+    <!--<list>-->
+    <!--<bean class="org.springframework.security.access.vote.RoleVoter" />-->
+    <!--<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />-->
+    <!--</list>-->
+    <!--</constructor-arg>-->
+    <!--</bean>-->
+
+    <bean id="accessDecisionManager"
+          class="org.springframework.security.access.vote.AffirmativeBased">
+        <constructor-arg>
+            <list>
+                <ref bean="roleVoter" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="roleVoter"
+          class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <constructor-arg>
+            <bean
+                    class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+                <property name="hierarchy">
+                    <value>
+                        ROLE_ADMIN > ROLE_USER
+                        ROLE_USER > ROLE_GUEST
+                    </value>
+                </property>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="inMemoryUserServiceWithCustomUser" class="com.apress.pss.terrormovies.spring.CustomInMemoryUserDetailsManager">
+        <constructor-arg>
+            <list>
+                <bean class="com.apress.pss.terrormovies.model.User">
+                    <constructor-arg value="admin" />
+                    <constructor-arg value="admin" />
+                    <constructor-arg>
+                        <list>
+                            <bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                                <constructor-arg value="ROLE_ADMIN" />
+                            </bean>
+                        </list>
+                    </constructor-arg>
+                    <constructor-arg value="Scarioni" />
+                    <constructor-arg value="20" />
+                </bean>
+                <bean class="com.apress.pss.terrormovies.model.User">
+                    <constructor-arg value="lucas"/>
+                    <constructor-arg value="fernandez"/>
+                    <constructor-arg>
+                    <list>
+                        <bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                            <constructor-arg value="ROLE_VIP"/>
+                        </bean>
+                        <bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                            <constructor-arg value="ROLE_ADMIN"/>
+                        </bean>
+                </list>
+                </constructor-arg>
+                <constructor-arg value="Scarioni"/>
+                <constructor-arg value="20"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+
+    <bean id="inMemoryTokenRepository" class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl" />
+
+    <bean id="logoutRedirectToAny" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+        <property name="targetUrlParameter" value="redirectTo" />
+    </bean>
+
+    <bean id="customExpressionHandler" class="com.apress.pss.terrormovies.security.CustomWebSecurityExpressionHandler" />
+
+    <!--<bean id="digestFilter" class=-->
+            <!--"org.springframework.security.web.authentication.www.DigestAuthenticationFilter">-->
+        <!--<property name="userDetailsService" ref="userService" />-->
+        <!--<property name="authenticationEntryPoint" ref="digestEntryPoint" />-->
+    <!--</bean>-->
+    <!--<bean id="digestEntryPoint" class=-->
+            <!--"org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">-->
+        <!--<property name="realmName" value="terrormovies-realm"/>-->
+        <!--<property name="key" value="terrorific" />-->
+    <!--</bean>-->
+</beans>

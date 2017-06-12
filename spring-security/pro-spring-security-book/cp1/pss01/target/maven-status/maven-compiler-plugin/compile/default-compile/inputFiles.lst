@@ -1,0 +1,12 @@
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/controller/LoginController.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/security/CustomWebSecurityExpressionHandler.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/controller/AdminController.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/model/User.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/spring/CustomInMemoryUserDetailsManager.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/security/CustomWebSecurityExpressionRoot.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/servlets/HelloWorldServlet.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/security/ChannelProcessorsPostProcessor.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/model/Movie.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/security/CustomRedirectStrategy.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/security/CustomRetryEntryPoint.java
+/Users/wanggang/workspace/spring/spring-security/pro-spring-security-book/cp1/pss01/src/main/java/com/apress/pss/terrormovies/controller/AdminControllerImpl.java
